@@ -3,8 +3,183 @@
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
 <yield id="chapter">
 
-  <p class="warning">This chapter is not yet translated. Contributions are
-  welcomed!</p>
+  <p>Workers allow you to unload tasks which are heavy or blocking. The
+  <code>Hoa\Worker</code> library allows you to create and manipulate workers
+  with minimal effort.</p>
+
+  <h2 id="Table_des_matieres">Table of contents</h2>
+
+  <tableofcontents id="main-toc" />
+
+  <h2 id="Introduction" for="main-toc">Introduction</h2>
+
+  <p>We recommend that you read the chapter on <a
+  href="@hack:chapter=Zombie"><code>Hoa\Zombie</code> in which you will
+  learn how to transform a process into a <strong>zombie</strong>.
+  <code>Hoa\Worker</code> takes advantage of this idea, once the zombie is
+  created, to create a <strong>server</strong> which will receive
+  <strong>messages</strong>. For each message recieved, an
+  <strong>event</strong> will be emitted that we can intercept, and with
+  which we can execute a <strong>task</strong>.</p>
+
+  <p>Examples of tasks could be: sending a notification (for example, by mail),
+  executing important operations on the database, processing multiple files
+  etc. The idea is to <strong>unload</strong> from the application tasks which
+  could make is <strong>slower</strong> and execute them in
+  <strong>parallel</strong> without interfering with the execution of the
+  application.</p>
+
+<p>Even if the established protocal permits a level of <strong>integrity</strong> and <strong>reliablity</strong> of the messages, it is preferable that the commiunications happen <strong>server to server</strong> and are not routed through the client.
+
+  <p><core>Hoa\Worker</code> is made of two parts :</p>
+  <ul>
+    <li><code>Hoa\Worker\Backend\Shared</code> that allows you to <strong>create</strong> a
+      <em>worker</em> <strong>shared</strong> between <strong>many</strong> processes ;</li>
+    <li><code>Hoa\Worker\Shared</code> which allows you to <strong>send</strong> messages to the <em>worker</em></li>
+  </ul>
+
+
+  <h2 id="worker_partage" for="main-toc"><em>Worker</em> sharing</h2>
+
+  <p>A <em>worker</em> is <strong>identified</strong> by a
+      <code>workerId</code>, sometimes abreviated as <code>wid</code>. This
+      identifier allows us to create a <strong>profile</strong> for our
+      <em>worker</em> thanks to <code>Hoa\Worker\Run</code>. The identifier and
+      the address of the server created in the <em>worker</em> are necessary to
+      establish a profile. Aftwewards we can start a new <em>worker</em> with only
+      this identifier.</p>
+
+  <p>The first step is then to verify that the profile exists with the method
+      <code>Hoa\Worker\Run::widExists</code>, if the profile does not exist we
+      can create it with the method <code>Hoa\Worker\Run::register</code>. For
+      example:</p> 
+  
+  <pre><code class="language-php">if(false === Hoa\Worker\Run::widExists('demorker')) \Worker\Run::register('demorker', 'tcp://127.0.0.1:123456');</code></pre>
+
+  <p>Not that we are certain that the profile exists, we can
+      <strong>start</strong> our <em>worker</em>. For this, we can utilize its
+      <strong>identifier</strong> and its <strong>password</strong> (which is
+      required in order to stop it) in the constructor of
+      <code>Hoa\Worker\Backend\Shared</code>. Once the object is created, it
+      will emit only a single category of <strong>event</strong> :
+      <code>message</code>, that we will listen to in order to establish our
+      own <strong>protocol</strong> for processing tasks. Lastly, the method
+      <code>Hoa\Worker\Backend\Shared::run</code> allows you to start a
+      <em>worker</em>: 
+      <pre><code class="language-php">
+              $file   = new Hoa\File\Write(__DIR__ . DS . 'Log'); 
+              $worker = new Hoa\Worker\Backend\Shared('demorker', 'iamapassword');
+              $worker->on('message', function ( Hoa\Core\Event\Bucket $bucket ) use ( $file ) {
+                // compute messages.  $data = $bucket->getData();
+                $file->writeAll($data['message'] . "\n"); 
+              }); 
+              $worker->run();
+      </code></pre>
+
+<p>We are <strong>free</strong> to handle the task in any way we please! For
+    example, it can be treated as a binary, archive, command line, serialized
+    obect… we can send what ever we like.</p>
+
+  <h3 id="Where_are_the_wid_profiles_kept" for="main-toc">Where are the <code>wid</code> profiles kept?</h3>
+
+  <p>The worker <em>profiles</em> are kep in the files
+      <code>hoa://Data/Variable/Run<em>workerId</em>.wid</code>. You must
+      ensure that the path is defined, for example
+      <code>/path/to/wid/directory</code> :</p>
+
+  <pre><code class="language-php">Hoa\Core\Core::getInstance()->setProtocol(
+    'hoa://Data/Variable/Run',
+    '/path/to/wid/directory/'
+);
+var_dump(resolve('hoa://Data/Variable/Run/'));
+
+/**
+ * Will output:
+ *     string(21) "/path/to/wid/directory/
+ */</code></pre>
+
+  <p>Note that if we use Hoa with the folder <code>Data/</code> then
+      <code>hoa://Data/</code> will be defined <strong>automatically</strong>
+      and we won't have to redefine the protocol. And in anycase, it will
+      <strong>not be necessary</strong> to modify the code, but only the
+      protocol <code>hoa://</code>.</p>
+
+  <h2 id="communicate_with_a_worker" for="main-toc">Communicating with a <em>worker</em></h2>
+
+  <p>A <em>worker</em> represents a server. Tasks are sent to the server through its <strong>client</strong>.
+  The client is simple to use, we need only instantiate the class <code>Hoa\Worker\Shared</code> and specify
+  the identifier of the <em>worker</em>, we can then use an appropriate method to send the messages, for example
+  <code>Hoa\Worker\Shared::postMessage</code> :</p>
+  <pre><code class="language-php">$worker = new Hoa\Worker\Shared('demorker');
+          $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
+
+  <p>Of course, the client will fetch the profile of the <en>worker</en> from the
+      file <code>hoa://Data/Variable/Run<em>workerId</em>.wid</code>. If we had
+      redefined the <em>worker</em>, then it is
+      necessary also to redefine the client.</p>
+
+  <p>We can use the method <code>Hoa\Worker\Shared::postMessage</code> as many time as we need but
+      it should be noted that it will connect and disconnect <strong>every time</strong> from the worker
+      so as to not disturb the execution of the main application. It is necessary therefore to consider
+      sending as much information each time (for example à travers
+      un tableau, les données seront sérialisées dans tous les cas). </p>
+
+  <h2 id="Using_the_Dedicated_Commands" for="main-toc">Using the Dedicated Commands</h2>
+
+  <p>In order to execute a <em>worker</em> it is necessary first to
+      start <a href="http://php.net/install.fpm">PHP FPM</a> :</p>
+
+  <pre><code class="language-shell">$ php-fpm -d listen=127.0.0.1:9000</code></pre>
+
+  <p>Next, in order to start our <em>worker</em> we will use the Hoa command line utility, and more
+      specifically the command <code>worker:start</code>. It is simply an alias to <code>Hoa\Worker\Backend\Shared::start</code> which
+      requires the PHP FPM address (default <code>127.0.0.1:9000</code>) and the path to the file which contains out <em>worker</em> :</p>
+
+  <pre><code class="language-shell">$ hoa worker:start /path/to/your/worker.php</code></pre>
+
+  <p>In order to verify that our <em>worker</em> has been created, we can use the
+      <code>worker:status</code> command which will return a list of all of the <em>workers</em>
+      as well as <strong>information</strong> and <strong>statistics</strong>: the identifiers,
+      the addresses of the servers, maximum memory usage (actual, average, maximum), etc. This command
+      is simply an alias to <code>Hoa\Worker\Shared::getInformations()</code>:</p>
+
+  <code>Hoa\Worker\Shared::getInformations()</code>:</p>
+
+  <pre><code class="language-shell">$ hoa worker:status --run /path/to/wid/directory/
+Shared worker informations
+
+ID        PID   Socket                  Uptime      Messages  Last  
+demorker  2465  tcp://127.0.0.1:123456  0d00:03:15  0         -     
+
+demorker  ||||||||||||||||||||||||||||||||||||   |  1,398Kb 1,398Kb 1,536Kb
+
+1 shared worker is running.</code></pre>
+
+  <p>Note : the output would normally be coloured on a compatible terminal.</p>
+
+  <p>Our <em>worker</em> is now in place, we can <strong>execute</strong> the client
+      without any problems (from the command line or via. a web browser, whatever..) !</p>
+
+  <p>Finally, in order to properly <strong>stop</strong> the <em>worker</em>, we have the command
+      <code>worker:stop</code>, which is an alias to <code>Hoa\Worker\Backend\Shared</code>, it requires
+      the identifier of the <em>worker</em> and its <strong>password</strong> :</p>
+
+  <pre><code class="language-shell">$ hoa worker:stop --run /path/to/wid/directory/ demorker
+          Password: ▋</code></pre>
+
+  <p>If the password is incorrect, the <em>worker</em> will stop and the client will no longer
+      be able to communicate with it, an exception of class <code>Hoa\Worker\Exception</code> will be thrown.</p>
+
+  <h2 id="Conclusion" for="main-toc">Conclusion</h2>
+
+  <p><code>Hoa\Worker</code> is, on one hand, an example of what it is possible
+      to do with <a href="@hack:chapter=Zombie"><code>Hoa\Zombie</code></a>, on the other
+      it fulfils perfectly the role of being able to <strong>offload</strong> from the application
+      the responsibility of processing <strong>intensive</strong> and <strong>blocking</strong> tasks. The
+      <code>worker:<em>*</em></code> commands allow you to administer the
+      <code>workers</code> with minimal effort. But of course, nothing should
+      stop you building your own solutions based on the concepts presented
+      here!</p>
 
 </yield>
 </overlay>
