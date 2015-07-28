@@ -13,24 +13,22 @@
 
   <h2 id="Introduction" for="main-toc">Introduction</h2>
 
-  <p>Il est conseillé de lire le chapitre sur
-  <a href="@hack:chapter=Zombie"><code>Hoa\Zombie</code></a> dans lequel nous
-  apprennons comment transformer un processus en <strong>zombie</strong>. C'est
-  l'idée qu'exploite <code>Hoa\Worker</code> pour, une fois le zombie créé,
-  mettre en place un <strong>serveur</strong> qui va recevoir des
-  <strong>messages</strong>. À chaque message reçu, un
-  <strong>événement</strong> va être émis que nous pourrons intercepter pour
-  exécuter une <strong>tâche</strong>.</p>
-  <p>Ces tâches peuvent être de plusieurs natures comme envoyer une notification
-  (par exemple par mail), faire des opérations importantes sur des bases de
-  données, traiter de multiples fichiers etc. L'idée est de
-  <strong>décharger</strong> l'application de tâches qui pourraient la
-  <strong>ralentir</strong> et s'exécuter en <strong>parallèle</strong> sans
-  interférer avec l'exécution de l'application.</p>
-  <p>Même si le protocole établi permet une certaine <strong>intégrité</strong>
-  et <strong>sûreté</strong> des messages, il est préférables que les
-  communications se déroulent de <strong>serveur à serveur</strong> et non pas
-  transitées par le client.</p>
+  <p>It is advisable to read the chapter on
+  <a href="@hack:chapter=Zombie"><code>Hoa\Zombie</code></a> to learn how to
+  transform a processus into a <strong>zombie</strong>. It is the idea behind
+  <code>Hoa\Worker</code> to setup a <strong>server</strong> that will receive
+  the <strong>messages</strong> after the zombie creation. On each received message,
+  an <strong>event</strong> will be issued that we can intercept to execute a
+  <strong>task</strong>.</p>
+  <p>These tasks can be of several kinds such as sending a notification
+  (eg by email),  doing important operations on database, handling many files etc.
+  The idea is to <strong>unload</strong> the application from tasks that could
+  <strong>slow it down</strong>. These tasks should may be run in
+  <strong>parallel</strong> and must not interfere with the execution of the
+  application.</p>
+  <p>Although the established protocol allows some <strong>integrity</strong>
+  and <strong>security</strong> for messages, it is preferable to do communication
+  from <strong>server to server</strong> and not through the client.
   <p><code>Hoa\Worker</code> is made of two parts :</p>
   <ul>
     <li><code>Hoa\Worker\Backend\Shared</code> to
