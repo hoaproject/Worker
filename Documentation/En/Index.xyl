@@ -45,24 +45,20 @@
   is used to create a <strong>profile</strong> for our worker thanks to
   <code>Hoa\Worker\Run</code> that does only this.
   Only an identifier and the server address created in the worker are required
-  to establish a profile. Ensuite,
-  nous pourrons démarrer un worker uniquement à partir de son identifiant.</p>
-  <p>La première étape va donc être de vérifier que le profil existe grâce à la
-  méthode <code>Hoa\Worker\Run::widExists</code>, dans le cas échant nous
-  allons le créer avec la méthode <code>Hoa\Worker\Run::register</code>.
-  Ainsi :</p>
+  to establish a profile. Then, we can start a worker only from its identifier.</p>
+  <p>The first step will be to check that the profile exists through
+  <code>Hoa\Worker\Run::widExists</code> method. On the other hand, we will
+  create it with the <code>Hoa\Worker\Run::register</code> method. Thus :</p>
   <pre><code class="language-php">if (false === Hoa\Worker\Run::widExists('demorker')) {
     Hoa\Worker\Run::register('demorker', 'tcp://127.0.0.1:123456');
 }</code></pre>
-  <p>Nous sommes maintenant certains que le profil existe. Nous pouvons alors
-  <strong>démarrer</strong> notre worker. Pour cela, nous
-  devons utiliser son <strong>identifiant</strong> et son <strong>mot de
-  passe</strong> (nécessaire pour l'arrêter) dans le constructeur de
-  <code>Hoa\Worker\Backend\Shared</code>. Une fois l'objet créé, il émettra une
-  seule catégorie d'<strong>événement</strong> : <code>message</code>, que nous
-  allons écouter pour mettre en place notre propre <strong>protocole</strong> de
-  traitement de tâches. Enfin, la méthode
-  <code>Hoa\Worker\Backend\Shared::run</code> permet de démarrer le worker :</p>
+  <p>We are now sure that the profile exists. We can then <strong>start</strong>
+  our worker. For this, we must use its <strong>identifier</strong> and its
+  <strong>password</strong> (requisite to stop it) in the constructor of
+  <code>Hoa\Worker\Backend\Shared</code>. After creating the object, it will
+  broadcast only one category of <strong>event</strong> : <code>message</code>,
+  that we will listen to establish our own task processing <strong>protocole</strong>.
+  Finally the <code>Hoa\Worker\Backend\Shared::run</code> starts the worker :</p>
   <pre><code class="language-php">$file   = new Hoa\File\Write(__DIR__ . DS . 'Log');
 $worker = new Hoa\Worker\Backend\Shared('demorker', 'iamapassword');
 $worker->on('message', function (Hoa\Core\Event\Bucket $bucket) use ($file) {
