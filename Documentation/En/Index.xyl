@@ -57,7 +57,7 @@
   <strong>password</strong> (requisite to stop it) in the constructor of
   <code>Hoa\Worker\Backend\Shared</code>. After creating the object, it will
   broadcast only one category of <strong>event</strong> : <code>message</code>,
-  that we will listen to establish our own task processing <strong>protocole</strong>.
+  that we will listen to establish our own task processing <strong>protocol</strong>.
   Finally the <code>Hoa\Worker\Backend\Shared::run</code> starts the worker :</p>
   <pre><code class="language-php">$file   = new Hoa\File\Write(__DIR__ . DS . 'Log');
 $worker = new Hoa\Worker\Backend\Shared('demorker', 'iamapassword');
@@ -76,8 +76,8 @@ $worker->run();
   <code>wid</code> profiles stored ?</h3>
 
   <p>The workers profiles are stored in the
-  <code>hoa://Data/Variable/Run/<em>workerId</em>.wid</code> files. Attention à
-  vérifier que ce chemin est bien défini, par exemple en choisissant le dossier
+  <code>hoa://Data/Variable/Run/<em>workerId</em>.wid</code> files. Pay attention
+  to verify that this path is well defined, for example by choosing the folder
   <code>/path/to/wid/directory</code> :</p>
   <pre><code class="language-php">Hoa\Core\Core::getInstance()->setProtocol(
     'hoa://Data/Variable/Run',
@@ -89,11 +89,11 @@ var_dump(resolve('hoa://Data/Variable/Run'));
  * Will output:
  *     string(21) "/path/to/wid/directory
  */</code></pre>
-  <p>Notons que si nous utilisons Hoa avec son dossier <code>Data/</code> alors
-  <code>hoa://Data/</code> se définira <strong>automatiquement</strong> vers ce
-  dossier et nous n'aurons pas besoin de redéfinir le protocole. Et dans tous
-  les cas, il ne sera <strong>pas nécessaire</strong> de modifier le code mais
-  uniquement le protocole <code>hoa://</code>.</p>
+  <p>Note that if we use Hoa with its <code>Data/</code> folder, then
+  <code>hoa://Data/</code> will be defined <strong>automatically</strong> to this
+  folder and we will not need to redefine the protocol. In all cases, it will
+  <strong>not be necessary</strong> to modify the code but only the
+  <code>hoa://</code> protocol.</p>
 
   <h2 id="Communicate_with_a_worker" for="main-toc">Communicate with a worker</h2>
 
