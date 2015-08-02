@@ -114,7 +114,7 @@ $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
   application. We must then consider sending the <strong>maximum</strong> of
   informations everytime (e.g. through an array, the data are serialized in
   all cases).</p>
-  
+
   <h2 id="Use_dedicated_commands" for="main-toc">Use dedicated commands</h2>
 
   <p>Pour exécuter un worker, il faut avant tout démarrer
@@ -161,12 +161,11 @@ Password: ▋</code></pre>
 
   <p><code>Hoa\Worker</code> ia a demonstration of what it is possible to build
   with <a href="@hack:chapter=Zombie"><code>Hoa\Zombie</code></a> but not only.
-  Il remplit parfaitement son rôle à savoir
-  <strong>décharger</strong> l'application de traitements
-  <strong>lourds</strong> et <strong>bloquants</strong>. Les commandes
-  <code>worker:<em>*</em></code> permettent d'<strong>administrer</strong> ces
-  workers à moindre efforts. Rien ne vous empêche de bâtir
-  votre <strong>propre</strong> solution à partir des concepts évoqués ici !</p>
+  It has done its job ie <strong>relieving</strong> the application from
+  <strong>heavy</strong> and <strong>blocking</strong> tasks. The
+  <code>worker<em>*</em></code> commands help <strong>administrate</strong>
+  these workers with less efforts. Nothing prevents you from building your
+  <strong>own</strong> solution from the concepts discussed here!</p>
 
 </yield>
 </overlay>
