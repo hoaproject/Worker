@@ -97,27 +97,24 @@ var_dump(resolve('hoa://Data/Variable/Run'));
 
   <h2 id="Communicate_with_a_worker" for="main-toc">Communicate with a worker</h2>
 
-  <p>Un worker représente un serveur, nous allons donc
-  présenter son <strong>client</strong> qui permet de lui
-  <strong>envoyer</strong> des tâches. Le client est très simple à utiliser, il
-  suffit d'instancier la classe <code>Hoa\Worker\Shared</code> en précisant
-  l'identifiant du worker, et ensuite utiliser la méthode
-  adéquate pour envoyer des messages, à savoir
+  <p>A worker stand for a server, so we will present its <strong>client</strong>
+  that allow to <strong>send</strong> him tasks. The client is very easy to use,
+  simply instanciate the <code>Hoa\Worker\Shared</code> class specifying the worker
+  identifier, then use the proper method to send messages, namely
   <code>Hoa\Worker\Shared::postMessage</code> :</p>
   <pre><code class="language-php">$worker = new Hoa\Worker\Shared('demorker');
 $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
-  <p>Bien sûr, le client va chercher le profil du worker dans
-  le fichier <code>hoa://Data/Variable/Run/<em>workerId</em>.wid</code>. Si nous
-  l'avons redéfini dans le worker, il faudra aussi le
-  redéfinir dans son client.</p>
-  <p>Nous pouvons utiliser la méthode
-  <code>Hoa\Worker\Shared::postMessage</code> autant de fois que nous le
-  désirons mais attention, elle se connecte et se déconnecte <strong>à chaque
-  fois</strong> du worker pour ne pas perturber l'exécution
-  de notre application principale. Il faut alors penser à envoyer le
-  <strong>maximum</strong> d'informations à chaque fois (par exemple à travers
-  un tableau, les données seront sérialisées dans tous les cas).</p>
-
+  <p>Of course, the client will seek the worker profile in the
+  <code>hoa://Data/Variable/Run/<em>workerId</em>.wid</code> file. If we
+   have redefined it in the worker, we will also require to
+   redefine it in the client.</p>
+  <p>We can use the <code>Hoa\Worker\Shared::postMessage</code> method as many
+  times as we wish but beware, it connects and disconnects <strong>each
+  time</ strong> to the worker to not disturb the execution of our main
+  application. We must then consider sending the <strong>maximum</strong> of
+  informations everytime (e.g. through an array, the data are serialized in
+  all cases).</p>
+  
   <h2 id="Use_dedicated_commands" for="main-toc">Use dedicated commands</h2>
 
   <p>Pour exécuter un worker, il faut avant tout démarrer
