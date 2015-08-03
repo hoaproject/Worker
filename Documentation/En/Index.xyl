@@ -117,23 +117,21 @@ $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
 
   <h2 id="Use_dedicated_commands" for="main-toc">Use dedicated commands</h2>
 
-  <p>Pour exécuter un worker, il faut avant tout démarrer
+  <p>To execute a worker we first need to start
   <a href="http://php.net/install.fpm">PHP FPM</a> :</p>
   <pre><code class="language-shell">$ php-fpm -d listen=127.0.0.1:9000</code></pre>
-  <p>Ensuite, pour <strong>démarrer</strong> notre worker,
-  nous allons utiliser Hoa en ligne de commande, et plus particulièrement la
-  commande <code>worker:start</code>. Elle n'est qu'un alias pratique vers
-  <code>Hoa\Worker\Backend\Shared::start</code> qui nécessite l'adresse de
-  PHP FPM (par défaut <code>127.0.0.1:9000</code>) et le chemin vers le fichier
-  qui contient notre worker :</p>
+  <p>Then, to <strong>start</strong> our worker, we will use Hoa command line and
+  more precisely the <code>worker:start</code> command. It is only a convenient
+  alias to <code>Hoa\Worker\Backend\Shared::start</code> that needs the PHP FPM
+  address (by default <code>127.0.0.1:9000</code>) and the path to the worker
+  file :</p>
   <pre><code class="language-shell">$ hoa worker:start /path/to/your/worker.php</code></pre>
-  <p>Pour vérifier que notre worker a été créé, nous pouvons
-  utiliser la commande <code>worker:status</code> qui va nous retourner la
-  <strong>liste</strong> de tous les workers ainsi que des
-  <strong>informations</strong> et <strong>statistiques</strong> associées comme
-  les identifiants, adresses des serveurs, âge, consommation mémoire actuelle,
-  moyenne et maximum etc. En réalité, elle n'est qu'un alias vers
-  <code>Hoa\Worker\Shared::getInformations()</code>. Ainsi :</p>
+  <p>To check that our worker has been created, we can use the
+  <code>worker:status</code> command that will return the <strong>list</strong>
+  of all the workers as well as <strong>informations</strong> and
+  <strong>statistics</strong> like the identifiers, servers adresses, age,
+  current memory consumption, average and maximum etc. In reality, it is only
+  one alias to <code>Hoa\Worker\Shared::getInformations()</code>. Thus :</p>
   <pre><code class="language-shell">$ hoa worker:status --run /path/to/wid/directory/
 Shared worker informations
 
@@ -143,14 +141,13 @@ demorker  2465  tcp://127.0.0.1:123456  0d00:03:15  0         -
 demorker  ||||||||||||||||||||||||||||||||||||   |  1,398Kb 1,398Kb 1,536Kb
 
 1 shared worker is running.</code></pre>
-  <p>Note : le code couleur n'apparaît pas dans l'exemple.</p>
-  <p>Notre worker est maintenant en place. Nous pouvons
-  <strong>exécuter</strong> le client sans problème (en ligne de commande,
-  <em>via</em> un navigateur, peu importe) !</p>
-  <p>Enfin, pour <strong>arrêter</strong> le worker
-  proprement, nous avons la commande <code>worker:stop</code>, qui n'est qu'un
-  alias de <code>Hoa\Worker\Backend\Shared</code>, nécessitant l'identifiant du
-  worker et son <strong>mot de passe</strong> :</p>
+  <p>Note: the color code does not appear in the example.</p>
+  <p>Our worker is now in place. We can <strong>run</strong> the client without
+  problem (in command-line, <em>via</em> a browser, whatever !)</p>
+  <p>Finally, to properly <strong>stop</strong> the worker, we have the
+  <code>worker:stop</code> command, that is only an alias to
+  <code>Hoa\Worker\Backend\Shared</code>, requiring worker identifier and its
+  <strong>password</strong> :</p>
   <pre><code class="language-shell">$ hoa worker:stop --run /path/to/wid/directory/ demorker
 Password: ▋</code></pre>
   <p>If password is correct, the worker will be stopped and the client won't be
