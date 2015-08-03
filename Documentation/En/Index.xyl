@@ -21,9 +21,9 @@
   an <strong>event</strong> will be issued that we can intercept to execute a
   <strong>task</strong>.</p>
   <p>These tasks can be of several kinds such as sending a notification
-  (eg by email),  doing important operations on database, handling many files etc.
-  The idea is to <strong>unload</strong> the application from tasks that could
-  <strong>slow it down</strong>. These tasks should may be run in
+  (e.g. by email),  doing important operations on database, handling many files
+  etc. The idea is to <strong>unload</strong> the application from tasks that
+  could <strong>slow it down</strong>. These tasks may be run in
   <strong>parallel</strong> and must not interfere with the execution of the
   application.</p>
   <p>Although the established protocol allows some <strong>integrity</strong>
@@ -54,7 +54,7 @@
 }</code></pre>
   <p>We are now sure that the profile exists. We can then <strong>start</strong>
   our worker. For this, we must use its <strong>identifier</strong> and its
-  <strong>password</strong> (requisite to stop it) in the constructor of
+  <strong>password</strong> (required to stop it) in the constructor of
   <code>Hoa\Worker\Backend\Shared</code>. After creating the object, it will
   broadcast only one category of <strong>event</strong> : <code>message</code>,
   that we will listen to establish our own task processing <strong>protocol</strong>.
@@ -99,7 +99,7 @@ var_dump(resolve('hoa://Data/Variable/Run'));
 
   <p>A worker stand for a server, so we will present its <strong>client</strong>
   that allow to <strong>send</strong> him tasks. The client is very easy to use,
-  simply instanciate the <code>Hoa\Worker\Shared</code> class specifying the worker
+  simply instantiate the <code>Hoa\Worker\Shared</code> class specifying the worker
   identifier, then use the proper method to send messages, namely
   <code>Hoa\Worker\Shared::postMessage</code> :</p>
   <pre><code class="language-php">$worker = new Hoa\Worker\Shared('demorker');
@@ -112,7 +112,7 @@ $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
   times as we wish but beware, it connects and disconnects <strong>each
   time</ strong> to the worker to not disturb the execution of our main
   application. We must then consider sending the <strong>maximum</strong> of
-  informations everytime (e.g. through an array, the data are serialized in
+  informations every time (e.g. through an array, the data are serialized in
   all cases).</p>
 
   <h2 id="Use_dedicated_commands" for="main-toc">Use dedicated commands</h2>
@@ -129,9 +129,9 @@ $worker->postMessage('mail gordon@freeman.hl Hello Gordon!');</code></pre>
   <p>To check that our worker has been created, we can use the
   <code>worker:status</code> command that will return the <strong>list</strong>
   of all the workers as well as <strong>informations</strong> and
-  <strong>statistics</strong> like the identifiers, servers adresses, age,
+  <strong>statistics</strong> like the identifiers, servers addresses, age,
   current memory consumption, average and maximum etc. In reality, it is only
-  one alias to <code>Hoa\Worker\Shared::getInformations()</code>. Thus :</p>
+  an alias to <code>Hoa\Worker\Shared::getInformations()</code>. Thus :</p>
   <pre><code class="language-shell">$ hoa worker:status --run /path/to/wid/directory/
 Shared worker informations
 
@@ -156,7 +156,7 @@ Password: ▋</code></pre>
 
   <h2 id="Conclusion" for="main-toc">Conclusion</h2>
 
-  <p><code>Hoa\Worker</code> ia a demonstration of what it is possible to build
+  <p><code>Hoa\Worker</code> is a demonstration of what it is possible to build
   with <a href="@hack:chapter=Zombie"><code>Hoa\Zombie</code></a> but not only.
   It has done its job ie <strong>relieving</strong> the application from
   <strong>heavy</strong> and <strong>blocking</strong> tasks. The
