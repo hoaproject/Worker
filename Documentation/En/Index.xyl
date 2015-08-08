@@ -66,8 +66,7 @@ $worker->on('message', function (Hoa\Core\Event\Bucket $bucket) use ($file) {
     $data = $bucket->getData();
     $file->writeAll($data['message'] . "\n");
 });
-$worker->run();
-</code></pre>
+$worker->run();</code></pre>
   <p>We are <strong>free</strong> to do what we want to process the
   <strong>task</strong>!  The format is completely free: binary, compressed,
   command line, serialized object… we can send what we want.</p>
