@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -43,9 +45,6 @@ use Hoa\Worker;
  * Class \Hoa\Worker\Bin\Start.
  *
  * Start a worker.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Start extends Console\Dispatcher\Kit
 {
@@ -64,8 +63,6 @@ class Start extends Console\Dispatcher\Kit
 
     /**
      * The entry method.
-     *
-     * @return  void
      */
     public function main()
     {
@@ -107,8 +104,6 @@ class Start extends Console\Dispatcher\Kit
 
     /**
      * The command usage.
-     *
-     * @return  void
      */
     public function usage()
     {

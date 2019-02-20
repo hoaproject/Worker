@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -40,21 +42,13 @@ namespace Hoa\Worker;
  * Class \Hoa\Worker\Run.
  *
  * Manipulate .wid files.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Run
 {
     /**
      * Register a socketable object as a worker ID.
-     *
-     * @param   string  $workerId    Worker ID.
-     * @param   string  $socket      Socket URI.
-     * @return  bool
-     * @throws  \Hoa\Worker\Exception
      */
-    public static function register($workerId, $socket)
+    public static function register(string $workerId, string $socket): bool
     {
         if (true === static::widExists($workerId)) {
             throw new Exception(
@@ -78,11 +72,8 @@ class Run
 
     /**
      * Unregister a worker ID.
-     *
-     * @param   string  $workerId    Worker ID.
-     * @return  bool
      */
-    public static function unregister($workerId)
+    public static function unregister(string $workerId): bool
     {
         if (false === static::widExists($workerId)) {
             return true;
@@ -93,12 +84,8 @@ class Run
 
     /**
      * Get a worker ID data.
-     *
-     * @param   string  $workerId    Worker ID.
-     * @return  string
-     * @throws  \Hoa\Worker\Exception
      */
-    public static function get($workerId)
+    public static function get(string $workerId): string
     {
         if (false === static::widExists($workerId)) {
             throw new Exception(
@@ -113,23 +100,16 @@ class Run
 
     /**
      * Check if a .wid exists.
-     *
-     * @param   string  $workerId    Worker ID.
-     * @return  bool
      */
-    public static function widExists($workerId)
+    public static function widExists(string $workerId): bool
     {
         return true === file_exists(static::find($workerId));
     }
 
     /**
      * Find a .wid.
-     *
-     * @param   string  $workerId    Worker ID.
-     * @return  string
-     * @throws  \Hoa\Worker\Exception
      */
-    public static function find($workerId)
+    public static function find(string $workerId): string
     {
         if (false !== strpos($workerId, '/') ||
             false !== strpos($workerId, '\\')) {

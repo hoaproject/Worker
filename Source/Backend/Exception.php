@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -34,18 +36,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Worker;
+namespace Hoa\Worker\Backend;
 
-use Hoa\Exception as HoaException;
+use Hoa\Worker;
 
 /**
- * Class \Hoa\Worker\Exception.
+ * Class \Hoa\Worker\Backend\Exception.
  *
- * Extending the \Hoa\Exception\Exception class.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
+ * Extending the \Hoa\Worker\Exception class.
  */
-class Exception extends HoaException
+class Exception extends Worker\Exception
 {
 }

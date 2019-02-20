@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -44,9 +46,6 @@ use Hoa\Worker;
  * Class \Hoa\Worker\Bin\Stop.
  *
  * Stop worker.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Stop extends Console\Dispatcher\Kit
 {
@@ -65,8 +64,6 @@ class Stop extends Console\Dispatcher\Kit
 
     /**
      * The entry method.
-     *
-     * @return  void
      */
     public function main()
     {
@@ -109,8 +106,6 @@ class Stop extends Console\Dispatcher\Kit
 
     /**
      * The command usage.
-     *
-     * @return  void
      */
     public function usage()
     {

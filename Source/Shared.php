@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -42,16 +44,13 @@ use Hoa\Socket;
  * Class \Hoa\Worker\Shared.
  *
  * Worker frontend, user's API.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Shared
 {
     /**
      * Client.
      *
-     * @var \Hoa\Socket\Client
+     * @var Socket\Client
      */
     protected $_client = null;
 
@@ -59,10 +58,6 @@ class Shared
 
     /**
      * Build a worker pipe.
-     *
-     * @param   mixed   $workerId    Worker ID or a socket client (i.e. a
-     *                               \Hoa\Socket\Client object).
-     * @throws  \Hoa\Worker\Exception
      */
     public function __construct($workerId)
     {
@@ -91,9 +86,6 @@ class Shared
 
     /**
      * Post a message to the shared worker.
-     *
-     * @param   mixed   $message    Message (everything you want).
-     * @return  void
      */
     public function postMessage($message)
     {
@@ -109,8 +101,6 @@ class Shared
 
     /**
      * Get information about the shared worker.
-     *
-     * @return  array
      */
     public function getInformation()
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -66,9 +68,6 @@ use Hoa\Zombie;
  * To start the worker, we need a socketable object to the PHP-FPM server.
  * When the shared worker is stopped, the associated .wid file (if exists) is
  * removed.
- *
- * @copyright  Copyright © 2007-2017 Hoa community
- * @license    New BSD License
  */
 class Shared implements Event\Listenable
 {
@@ -105,7 +104,7 @@ class Shared implements Event\Listenable
     /**
      * Worker ID.
      *
-     * @var string
+     * @var ?string
      */
     protected $_wid         = null;
 
@@ -141,14 +140,8 @@ class Shared implements Event\Listenable
 
     /**
      * Construct a worker.
-     *
-     * @param   mixed   $workerId    Worker ID or a socket client (i.e. a
-     *                               \Hoa\Socket\Client object).
-     * @param   string  $password    Worker's password.
-     * @throws  \Hoa\Worker\Exception
-     * @throws  \Hoa\Worker\Backend\Exception
      */
-    public function __construct($workerId, $password)
+    public function __construct($workerId, string $password)
     {
         if (!is_string($workerId) &&
             !($workerId instanceof Socket\Client)) {
@@ -181,9 +174,6 @@ class Shared implements Event\Listenable
     /**
      * Run the shared worker.
      * It creates a zombie with \Hoa\Zombie.
-     *
-     * @return  void
-     * @throws  \Hoa\Worker\Backend\Exception
      */
     public function run()
     {
@@ -265,13 +255,8 @@ class Shared implements Event\Listenable
 
     /**
      * Start the shared worker.
-     *
-     * @param   string  $socket             Socket URI to PHP-FPM server.
-     * @param   string  $workerPath         Path to the shared worker program.
-     * @param   array   $fastcgiParameters  Additional parameters for FastCGI.
-     * @return  bool
      */
-    public static function start($socket, $workerPath, array $fastcgiParameters = [])
+    public static function start(string $socket, string $workerPath, array $fastcgiParameters = []): bool
     {
         $server = new Fastcgi\Responder(
             new Socket\Client($socket)
@@ -300,10 +285,8 @@ class Shared implements Event\Listenable
 
     /**
      * Stop the shared worker.
-     *
-     * @return  bool
      */
-    public function stop()
+    public function stop(): bool
     {
         $client = new Socket\Client($this->_socket);
         $client->connect();
@@ -315,12 +298,8 @@ class Shared implements Event\Listenable
 
     /**
      * Pack a message.
-     *
-     * @param   int     $type       Please, see self::TYPE_* constants.
-     * @param   mixed   $message    Whatever you want.
-     * @return  string
      */
-    public static function pack($type, $message)
+    public static function pack(int $type, $message): string
     {
         $message = serialize($message);
 
