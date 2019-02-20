@@ -23,17 +23,19 @@
         "source": "https://central.hoa-project.net/Resource/Library/Worker"
     },
     "require": {
-        "hoa/consistency": "~1.0",
-        "hoa/event"      : "~1.0",
-        "hoa/exception"  : "~1.0",
-        "hoa/fastcgi"    : "~3.0",
-        "hoa/file"       : "~1.0",
-        "hoa/socket"     : "~1.0",
-        "hoa/zombie"     : "~3.0"
+        "php"            : ">=7.1",
+        "hoa/consistency": "dev-master",
+        "hoa/event"      : "dev-master",
+        "hoa/exception"  : "dev-master",
+        "hoa/fastcgi"    : "dev-master",
+        "hoa/file"       : "dev-master",
+        "hoa/socket"     : "dev-master",
+        "hoa/zombie"     : "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Hoa\\Worker\\": "."
+            "Hoa\\Worker\\"     : "Source",
+            "Hoa\\Worker\\Bin\\": "Bin"
         }
     },
     "extra": {
